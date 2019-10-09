@@ -15,21 +15,9 @@ namespace OutForm
 {
     public partial class MainForm : Form
     {
-        public class WindowHandling
-        {
-            [DllImport("SignalAnalysis.h")]
-            public static extern int SetForegroundWindow(IntPtr point);
+        [DllImport("./SignalAnalisys.dll")]
+        public static extern int SysAnalInterface(int a);
 
-            public void ActivateTargetApplication(string processName, List<string> barcodesList)
-            {
-                Process p = Process.Start("notepad++.exe");
-                p.WaitForInputIdle();
-                IntPtr h = p.MainWindowHandle;
-                SetForegroundWindow(h);
-                SendKeys.SendWait("k");
-                IntPtr processFoundWindow = p.MainWindowHandle;
-            }
-        }
         public MainForm()
         {
             InitializeComponent();
@@ -37,7 +25,8 @@ namespace OutForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            var res = SysAnalInterface(10);
+            Console.WriteLine("Dll answer: " + res);
         }
 
         private void chart1_Click(object sender, EventArgs e)
