@@ -1,0 +1,9 @@
+﻿  pch.cpp
+  dllmain.cpp
+  SignalAanlysiscpp.cpp
+D:\VS Pojects\UNN 5 Sem\SignalAnalysis2.0\SignalAnalysis\SignalAnalysis\SignalAanlysiscpp.cpp(11,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+  Создание кода
+  Previous IPDB not found, fall back to full compilation.
+  All 1 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  SignalAnalysis.vcxproj -> D:\VS Pojects\UNN 5 Sem\SignalAnalysis2.0\SignalAnalysis\Release\SignalAnalysis.dll

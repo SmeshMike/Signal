@@ -1,0 +1,3 @@
+﻿  SignalAanlysiscpp.cpp
+D:\VS Pojects\UNN 5 Sem\SignalAnalysis2.0\SignalAnalysis\SignalAnalysis\SignalAanlysiscpp.cpp(11,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+  SignalAnalysis.vcxproj -> D:\VS Pojects\UNN 5 Sem\SignalAnalysis2.0\SignalAnalysis\Debug\SignalAnalysis.dll
