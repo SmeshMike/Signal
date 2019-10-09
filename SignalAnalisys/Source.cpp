@@ -1,7 +1,8 @@
 
 #include "SignalAnalysis.h"
+double fRand(double fMin, double fMax);
 
-void fourea(struct cmplx *data,int n,int is)
+void SigGen::fourea(std::vector<dot> data,int n,int is)
 {
 	int i,j,istep;
 	int m,mmax;
@@ -14,12 +15,12 @@ void fourea(struct cmplx *data,int n,int is)
 	{
 	if(i<j)
 		{
-		temp_r=data[j].real;
-		temp_i=data[j].image;
-		  data[j].real=data[i].real;
-		  data[j].image=data[i].image;
-			data[i].real=temp_r;
-			data[i].image=temp_i;
+		temp_r=data[j].amplitude.real;
+		temp_i=data[j].amplitude.imagine;
+		  data[j].amplitude.real=data[i].amplitude.real;
+		  data[j].amplitude.imagine=data[i].amplitude.imagine;
+			data[i].amplitude.real=temp_r;
+			data[i].amplitude.imagine=temp_i;
 		}
 		m=n>>1;
 		while(j>=m) { j-=m; m=(m+1)/2; }
@@ -38,12 +39,12 @@ void fourea(struct cmplx *data,int n,int is)
 			for(i=m;i<n;i+=istep)
 				{
 				j=i+mmax;
-				temp_r=w_r*data[j].real - w_i*data[j].image;
-				temp_i=w_r*data[j].image + w_i*data[j].real;
-				  data[j].real=data[i].real - temp_r;
-				  data[j].image=data[i].image - temp_i;
-					data[i].real+=temp_r;
-					data[i].image+=temp_i;
+				temp_r=w_r*data[j].amplitude.real - w_i*data[j].amplitude.imagine;
+				temp_i=w_r*data[j].amplitude.imagine + w_i*data[j].amplitude.real;
+				  data[j].amplitude.real=data[i].amplitude.real - temp_r;
+				  data[j].amplitude.imagine=data[i].amplitude.imagine - temp_i;
+					data[i].amplitude.real+=temp_r;
+					data[i].amplitude.imagine+=temp_i;
 				}
 			}
 		mmax=istep;
@@ -51,8 +52,8 @@ void fourea(struct cmplx *data,int n,int is)
 		if (is > 0) {
 			for (i = 0; i < n; i++)
 			{
-				data[i].real /= (float)n;
-				data[i].image /= (float)n;
+				data[i].amplitude.real /= (float)n;
+				data[i].amplitude.imagine /= (float)n;
 			}
 		}
 }
@@ -62,16 +63,33 @@ void SigGen::SinGen(double ampl, double phase, double samp_freq, int first, int 
 {
 
 	for (int i = first; i < last; i++)
-	{
-		//signal.push_back();
+	{	
+		bool k = false;
 		complex a; dot b;
+		a.real = ampl * sin(2. * M_PI * samp_freq * i + samp_freq);
 
-		a.real += ampl * sin(2. * M_PI * samp_freq * i + samp_freq);
 		b.amplitude = a;
-		b.x_pos = i;
-		signal[i] = b;
-		size++;
-		sign_energy += a.real * a.real;
+		b.x_pos = i;		
+
+		for (int j = 0; j < signal.size(); j++)
+		{
+			if (signal[j].x_pos == i) 
+			{
+				signal[j].amplitude.real += a.real;
+				signal[j].amplitude.imagine += a.imagine;
+				k = true;
+
+
+				break;
+			}
+
+		}
+		if (!k)
+		{
+			signal.push_back(b);
+			size++;
+			sign_energy += a.real * a.real;
+		}
 	}
 }
 
@@ -95,7 +113,7 @@ void SigGen::SignalwithWhiteNoise(std::vector<dot> k, int ampl)
 		double rand_part;
 		for (int j = 0; j < 45; j++)
 		{
-			rand_part += rand() % 1 - 1;
+			rand_part += fRand(-1, 1);
 		}
 		rand_part = rand_part / 45;
 
@@ -132,4 +150,11 @@ void SigGen::Qs(std::vector<dot> item, int left, int right)
 
 	if (left < j) Qs(item, left, j);
 	if (i < right) Qs(item, i, right);
+}
+
+
+double fRand(double fMin, double fMax)
+{
+	double f = (double)rand() / RAND_MAX;
+	return fMin + f * (fMax - fMin);
 }

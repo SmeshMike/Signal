@@ -1,31 +1,42 @@
-﻿using System;
+﻿using OutForm.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using OutForm.Controls;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace OutForm
 {
     public partial class MainForm : Form
     {
         [DllImport("./SignalAnalisys.dll")]
-        public static extern int SysAnalInterface(int a);
+        public static extern int SysAnalInterface(int l, double[] a, double[] f, double[] ff);
 
         public MainForm()
         {
             InitializeComponent();
+            this.MouseClick += MainForm_MouseClick;
+
+
+            this.Load += Form1_Load;
+        }
+
+        private void MainForm_MouseClick(object sender, MouseEventArgs e)
+        {
+            Console.WriteLine(e.Location.X);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var res = SysAnalInterface(10);
+            double[] l = { 1.0, 2.2 };
+
+            var res = SysAnalInterface(10, l , l, l);
             Console.WriteLine("Dll answer: " + res);
         }
 
@@ -48,43 +59,35 @@ namespace OutForm
                 foreach (var i in tb)
                     this.Controls.Remove(i);
 
-                int s = Convert.ToInt32(SinCount.Text);
+                int s = 0;
+                try
+                {
+                   s = Convert.ToInt32(SinCount.Text);
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
                 tb = new SinPanel[s];
 
                 for (int i = 0; i < s; i++)
                 {
                     tb[i] = new SinPanel();
-                    tb[i].Location = new System.Drawing.Point(SinCount.Location.X - 5 + (i) * tb[i].Width, 50);
+                    tb[i].Location = new System.Drawing.Point(SinCount.Location.X + -5 + ((i) * tb[i].Width), 50);
                     tb[i].Name = "sinTextBox" + i;
-                    tb[i].TabIndex = i + 3;
-                    this.Size = new System.Drawing.Size(SinCount.Location.X + 125 + i * (tb[i].Width), 600);
+                    // tb[i].TabIndex = i + 4;
+                    // this.Size = new System.Drawing.Size(SinCount.Location.X + 125 + i * (tb[i].Width), 600);
                     this.Controls.Add(tb[i]);
                 }
             }
 
         }
 
-        private void SinCount_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
 
-            string s = "";
-            foreach (var el in tb)
-            {
-                s += string.Join(" ", el.TextBoxes.Select(t => t.Text).ToArray());
-                s += '\n';
-            }
-
-            Console.WriteLine(s);
         }
- 
-    
-   
 
+        private void SinLabel_Click(object sender, EventArgs e)
+        {
 
-}
+        }
+    }
 }

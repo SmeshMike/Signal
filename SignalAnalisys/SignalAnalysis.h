@@ -5,8 +5,6 @@
 #include <vector>
 #include <list>
 
-typedef struct cmplx { float real; float image; } Cmplx;
-
 struct complex
 {
 	double real = 0.0; double imagine = 0.0;
@@ -39,4 +37,5 @@ public:
 	void SinGen(double ampl, double phase, double samp_freq, int first, int last);
 	void SignalGen(int sin_count, double _ampl[], double _phase[], double _samp_freq[], int _first[], int _last[]);
 	void SignalwithWhiteNoise(std::vector<dot> k, int percent);	
+	void fourea(std::vector<dot> data, int n, int is);
 };
