@@ -16,7 +16,11 @@ namespace OutForm
     public partial class MainForm : Form
     {
         [DllImport("./SignalAnalisys.dll")]
-        public static extern int SysAnalInterface(int l, double[] a, double[] f, double[] ff);
+        public static extern void PushSignal(double a, double p, double f, int fs, int l);
+        [DllImport("./SignalAnalisys.dll")]
+        public static extern void Run();
+        [DllImport("./SignalAnalisys.dll")]
+        public static extern int GetSize();
 
         public MainForm()
         {
@@ -34,10 +38,21 @@ namespace OutForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            double[] l = { 1.0, 2.2 };
+            //Добавляем некоторую информацию в нашу dll
 
-            var res = SysAnalInterface(10, l , l, l);
-            Console.WriteLine("Dll answer: " + res);
+            PushSignal(1, 2, 3, 4, 5);
+            PushSignal(1, 2, 3, 4, 5);
+            PushSignal(1, 2, 3, 4, 5);
+
+
+            //Проверяем, что размер всех массивов поднят до 3
+            Console.WriteLine(GetSize());
+
+            //Как только вся нужная информация запушена - начинаем выполнение основной логики
+            Run();
+
+            //Наслаждаемся жизнью
+
         }
 
         private void chart1_Click(object sender, EventArgs e)

@@ -2,30 +2,46 @@
 #define DllExport   __declspec( dllexport )
 
 
+int size = 0;
+std::vector<double> ampl;
+std::vector<double> phase;
+std::vector<double> freeq;
+
+std::vector<int> start;
+std::vector<int> finish;
+
 extern "C"
 {
-	DllExport int __stdcall SysAnalInterface(int len, double* ampl, double* phase, double* freeq);
+	DllExport void __stdcall Run();
+	DllExport void __stdcall PushSignal(double ampl, double phase, double freeq, int first, int last);
+
+	DllExport int __stdcall GetSize();
 }
 
 
-DllExport int __stdcall  SysAnalInterface(int len, const double* ampl, const double* phase, const double* freeq ) {
-	SigGen s;
+DllExport void __stdcall  Run() {
+	
+	SigGen s; 
 
-	double* a = new double[len];
-	double* b = new double[len];
-	double* c = new double[len];
-	for (int i = 0; i < len; ++i)
-	{
-		a[i] = ampl[i];
-		b[i] = phase[i];
-		c[i] = freeq[i];
-	}
+	// vector<smth>.data() == smth* arr
 
-	s.SignalGen(len,a,b,c, nullptr, nullptr);
-
-	delete[] a;
-	delete[] b;
-	delete[] c;
-
-	return 10;
+	s.SignalGen(size,ampl.data(),phase.data(),freeq.data(), start.data(), finish.data());
 };
+
+DllExport void __stdcall PushSignal(double a, double p, double f, int fs, int l) {
+
+	//Заполняем массивы
+	ampl.push_back(a);
+	phase.push_back(p);
+	freeq.push_back(f);
+
+	start.push_back(fs);
+	finish.push_back(l);
+
+	++size;
+
+}
+
+DllExport int __stdcall GetSize() {
+	return size;
+}
