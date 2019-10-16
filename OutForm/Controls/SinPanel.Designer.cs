@@ -34,6 +34,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tbD = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbE = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // tbA
@@ -84,10 +88,46 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Начальная фаза";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 133);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(44, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Начало";
+            // 
+            // tbD
+            // 
+            this.tbD.Location = new System.Drawing.Point(6, 149);
+            this.tbD.Name = "tbD";
+            this.tbD.Size = new System.Drawing.Size(100, 20);
+            this.tbD.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 172);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(38, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Конец";
+            // 
+            // tbE
+            // 
+            this.tbE.Location = new System.Drawing.Point(6, 188);
+            this.tbE.Name = "tbE";
+            this.tbE.Size = new System.Drawing.Size(100, 20);
+            this.tbE.TabIndex = 9;
+            // 
             // SinPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tbE);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.tbD);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -95,7 +135,7 @@
             this.Controls.Add(this.tbB);
             this.Controls.Add(this.tbA);
             this.Name = "SinPanel";
-            this.Size = new System.Drawing.Size(115, 149);
+            this.Size = new System.Drawing.Size(115, 222);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,8 +146,12 @@
         public System.Windows.Forms.TextBox tbA;
         public System.Windows.Forms.TextBox tbB;
         public System.Windows.Forms.TextBox tbC;
+        public System.Windows.Forms.TextBox tbD;
+        public System.Windows.Forms.TextBox tbE;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

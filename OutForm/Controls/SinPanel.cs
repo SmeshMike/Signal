@@ -21,6 +21,8 @@ namespace OutForm.Controls
             l.Add(tbA);
             l.Add(tbB);
             l.Add(tbC);
+            l.Add(tbD);
+            l.Add(tbE);
 
             TextBoxes = l;
         }
