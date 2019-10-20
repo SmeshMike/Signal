@@ -15,7 +15,7 @@ class SigGen
 public:
 	struct dot
 	{
-		complex amplitude; int x_pos;
+		complex amplitude; double x_pos;
 	};
 private:
 	std::vector <dot> signal;
@@ -36,6 +36,10 @@ public:
 
 	void SinGen(double ampl, double phase, double samp_freq, int first, int last);
 	void SignalGen(int sin_count, double _ampl[], double _phase[], double _samp_freq[], int _first[], int _last[]);
-	void SignalwithWhiteNoise(std::vector<dot> k, int percent);	
-	void fourea(std::vector<dot> data, int n, int is);
+	void SignalwithWhiteNoise(int percent);	
+	void fourea(int n, int is);
+	double GetYPoints(int key);
+	int GetXPoints(int key);
+	int GetS();
+	void Clear();
 };

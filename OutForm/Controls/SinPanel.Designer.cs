@@ -46,6 +46,7 @@
             this.tbA.Name = "tbA";
             this.tbA.Size = new System.Drawing.Size(100, 20);
             this.tbA.TabIndex = 0;
+            this.tbA.Text = "4";
             // 
             // tbB
             // 
@@ -53,6 +54,7 @@
             this.tbB.Name = "tbB";
             this.tbB.Size = new System.Drawing.Size(100, 20);
             this.tbB.TabIndex = 1;
+            this.tbB.Text = "0,8";
             // 
             // tbC
             // 
@@ -60,6 +62,7 @@
             this.tbC.Name = "tbC";
             this.tbC.Size = new System.Drawing.Size(100, 20);
             this.tbC.TabIndex = 2;
+            this.tbC.Text = "0";
             // 
             // label1
             // 
@@ -103,6 +106,7 @@
             this.tbD.Name = "tbD";
             this.tbD.Size = new System.Drawing.Size(100, 20);
             this.tbD.TabIndex = 7;
+            this.tbD.Text = "0";
             // 
             // label5
             // 
@@ -119,6 +123,7 @@
             this.tbE.Name = "tbE";
             this.tbE.Size = new System.Drawing.Size(100, 20);
             this.tbE.TabIndex = 9;
+            this.tbE.Text = "20";
             // 
             // SinPanel
             // 

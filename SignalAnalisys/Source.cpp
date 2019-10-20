@@ -2,7 +2,7 @@
 #include "SignalAnalysis.h"
 double fRand(double fMin, double fMax);
 
-void SigGen::fourea(std::vector<dot> data,int n,int is)
+void SigGen::fourea(int n,int is)
 {
 	int i,j,istep;
 	int m,mmax;
@@ -15,12 +15,12 @@ void SigGen::fourea(std::vector<dot> data,int n,int is)
 	{
 	if(i<j)
 		{
-		temp_r=data[j].amplitude.real;
-		temp_i=data[j].amplitude.imagine;
-		  data[j].amplitude.real=data[i].amplitude.real;
-		  data[j].amplitude.imagine=data[i].amplitude.imagine;
-			data[i].amplitude.real=temp_r;
-			data[i].amplitude.imagine=temp_i;
+		temp_r=signal[j].amplitude.real;
+		temp_i= signal[j].amplitude.imagine;
+		signal[j].amplitude.real= signal[i].amplitude.real;
+		signal[j].amplitude.imagine= signal[i].amplitude.imagine;
+		signal[i].amplitude.real=temp_r;
+		signal[i].amplitude.imagine=temp_i;
 		}
 		m=n>>1;
 		while(j>=m) { j-=m; m=(m+1)/2; }
@@ -39,12 +39,12 @@ void SigGen::fourea(std::vector<dot> data,int n,int is)
 			for(i=m;i<n;i+=istep)
 				{
 				j=i+mmax;
-				temp_r=w_r*data[j].amplitude.real - w_i*data[j].amplitude.imagine;
-				temp_i=w_r*data[j].amplitude.imagine + w_i*data[j].amplitude.real;
-				  data[j].amplitude.real=data[i].amplitude.real - temp_r;
-				  data[j].amplitude.imagine=data[i].amplitude.imagine - temp_i;
-					data[i].amplitude.real+=temp_r;
-					data[i].amplitude.imagine+=temp_i;
+				temp_r=w_r* signal[j].amplitude.real - w_i* signal[j].amplitude.imagine;
+				temp_i=w_r* signal[j].amplitude.imagine + w_i* signal[j].amplitude.real;
+				signal[j].amplitude.real= signal[i].amplitude.real - temp_r;
+				  signal[j].amplitude.imagine= signal[i].amplitude.imagine - temp_i;
+				  signal[i].amplitude.real+=temp_r;
+				  signal[i].amplitude.imagine+=temp_i;
 				}
 			}
 		mmax=istep;
@@ -52,8 +52,8 @@ void SigGen::fourea(std::vector<dot> data,int n,int is)
 		if (is > 0) {
 			for (i = 0; i < n; i++)
 			{
-				data[i].amplitude.real /= (float)n;
-				data[i].amplitude.imagine /= (float)n;
+				signal[i].amplitude.real /= (float)n;
+				signal[i].amplitude.imagine /= (float)n;
 			}
 		}
 }
@@ -66,19 +66,18 @@ void SigGen::SinGen(double ampl, double phase, double samp_freq, int first, int 
 	{	
 		bool k = false;
 		complex a; dot b;
-		a.real = ampl * sin(2. * M_PI * samp_freq * i + samp_freq);
+		a.real = ampl * sin( phase * i + samp_freq);
 
 		b.amplitude = a;
-		b.x_pos = i;		
+		b.x_pos = i;
 
 		for (int j = 0; j < signal.size(); j++)
 		{
-			if (signal[j].x_pos == i) 
+			if (signal[j].x_pos == i)
 			{
 				signal[j].amplitude.real += a.real;
 				signal[j].amplitude.imagine += a.imagine;
 				k = true;
-
 
 				break;
 			}
@@ -105,21 +104,20 @@ void SigGen::SignalGen(int sin_count, double _ampl[], double _phase[], double _s
 	//	return signal;
 }
 
-void SigGen::SignalwithWhiteNoise(std::vector<dot> k, int ampl)
+void SigGen::SignalwithWhiteNoise( int ampl)
 {
+	double rand_part = 0;
 	for (int i = 0; i < size; i++)
 	{
-
-		double rand_part;
-		for (int j = 0; j < 45; j++)
+		for (int j = 0; j < 100; j++)
 		{
 			rand_part += fRand(-1, 1);
 		}
-		rand_part = rand_part / 45;
+		rand_part = rand_part / 100;
 
 		noise_energy += rand_part * rand_part;
 
-		k[i].amplitude.real = rand_part;
+		signal[i].amplitude.real += ampl* 0.01* rand_part;
 		rand_part = 0;
 	}
 }
@@ -132,7 +130,7 @@ void SigGen::Quicksort(std::vector<dot> item, int len)
 
 void SigGen::Qs(std::vector<dot> item, int left, int right)
 {
-	int i, j, x;
+	double i, j, x;
 	dot y;
 	i = left;   j = right;
 	x = item[(left + right) / 2].x_pos;
@@ -157,4 +155,25 @@ double fRand(double fMin, double fMax)
 {
 	double f = (double)rand() / RAND_MAX;
 	return fMin + f * (fMax - fMin);
+}
+
+
+double SigGen::GetYPoints(int key)
+{
+	return signal[key].amplitude.real;
+}
+
+int SigGen::GetXPoints(int key)
+{
+	return signal[key].x_pos;
+}
+
+int SigGen::GetS()
+{
+	return size;
+}
+void SigGen::Clear()
+{
+		signal.clear();
+		size = 0;
 }
