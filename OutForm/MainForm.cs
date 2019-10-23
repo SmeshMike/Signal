@@ -22,7 +22,7 @@ namespace OutForm
         [DllImport("./SignalAnalisys.dll")]
         public static extern int GetSize();
         [DllImport("./SignalAnalisys.dll")]
-        public static extern double GetX(int key);
+        public static extern int GetX(int key);
         [DllImport("./SignalAnalisys.dll")]
         public static extern double GetY(int key);
         [DllImport("./SignalAnalisys.dll")]
@@ -156,7 +156,7 @@ namespace OutForm
             {
 
 
-                x = GetX(i)*temp_ampl;
+                x = GetX(i) * temp_phase;
                 double y = GetY(i);
                 SignGraph.Series[0].Points.AddXY(x, y);
 
@@ -164,6 +164,7 @@ namespace OutForm
                 Console.WriteLine(y);
             }
 
+            Clear();
 
             // SignGraph.Series[0].Points.Clear();
 
@@ -179,10 +180,11 @@ namespace OutForm
                 temp_first = first[j];
                 temp_last = last[j];
 
+                Run(temp_ampl, temp_phase, temp_freq, temp_first, temp_last);
                 AddNoise(Convert.ToInt32(NoisePerc.Text));
             }
-            
-            
+
+
 
             double x1 = 0;
             l = GetS();
@@ -191,7 +193,7 @@ namespace OutForm
             {
 
 
-                x1 = GetX(i)*temp_ampl;
+                x1 = GetX(i) * temp_phase;
                 double y1 = GetY(i);
                 SignGraph.Series[1].Points.AddXY(x1, y1);
 
@@ -216,7 +218,67 @@ namespace OutForm
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Fur(Convert.ToInt32(tb[0].tbE.Text)/4,Convert.ToInt32(tb[0].tbE.Text)/4*3);
+            SignGraph.Series[0].Points.Clear();
+            int l = 0;
+
+            int s = Convert.ToInt32(SinCount.Text);
+
+            double[] ampl = new double[s];
+            double[] phase = new double[s];
+            double[] freq = new double[s];
+            int[] first = new int[s];
+            int[] last = new int[s];
+
+            for (int i = 0; i < s; i++)
+            {
+                ampl[i] = Convert.ToDouble(tb[i].tbA.Text);
+                Console.Write(ampl[i].ToString() + " ");
+                phase[i] = Convert.ToDouble(tb[i].tbB.Text);
+                Console.Write(phase[i].ToString() + " ");
+                freq[i] = Convert.ToDouble(tb[i].tbC.Text);
+                Console.Write(freq[i].ToString() + " ");
+                first[i] = Convert.ToInt32(tb[i].tbD.Text);
+                Console.Write(first[i].ToString() + " ");
+                last[i] = Convert.ToInt32(tb[i].tbE.Text);
+                Console.WriteLine(last[i].ToString());
+
+            }
+            double temp_ampl = 0.0;
+            double temp_phase = 0.0;
+            double temp_freq = 0.0;
+            int temp_first = 0;
+            int temp_last = 0;
+
+            for (int j = 0; j < s; j++)
+            {
+                temp_ampl = ampl[j];
+                temp_phase = phase[j];
+                temp_freq = freq[j];
+                temp_first = first[j];
+                temp_last = last[j];
+
+                Run(temp_ampl, temp_phase, temp_freq, temp_first, temp_last);
+                AddNoise(Convert.ToInt32(NoisePerc.Text));
+                Fur(20, 80);
+
+            }
+
+            SignGraph.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            double x = 0;
+            l = GetS();
+            Console.WriteLine(l);
+            for (int i = 0; i < l; i++)
+            {
+
+
+                x = GetX(i) * temp_phase;
+                double y = GetY(i);
+                SignGraph.Series[0].Points.AddXY(x, y);
+
+                Console.Write(x + " ");
+                Console.WriteLine(y);
+            }
         }
     }
 }
+

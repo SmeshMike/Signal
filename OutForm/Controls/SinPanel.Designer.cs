@@ -54,7 +54,7 @@
             this.tbB.Name = "tbB";
             this.tbB.Size = new System.Drawing.Size(100, 20);
             this.tbB.TabIndex = 1;
-            this.tbB.Text = "0,8";
+            this.tbB.Text = "0,08";
             // 
             // tbC
             // 
@@ -123,7 +123,7 @@
             this.tbE.Name = "tbE";
             this.tbE.Size = new System.Drawing.Size(100, 20);
             this.tbE.TabIndex = 9;
-            this.tbE.Text = "20";
+            this.tbE.Text = "120";
             // 
             // SinPanel
             // 

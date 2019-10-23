@@ -66,7 +66,7 @@ void SigGen::SinGen(double ampl, double phase, double samp_freq, int first, int 
 	{	
 		bool k = false;
 		complex a; dot b;
-		a.real = ampl * sin( phase * i + samp_freq);
+		a.real = ampl * sin(2. * M_PI * phase * i + samp_freq);
 
 		b.amplitude = a;
 		b.x_pos = i;
@@ -117,7 +117,7 @@ void SigGen::SignalwithWhiteNoise( int ampl)
 
 		noise_energy += rand_part * rand_part;
 
-		signal[i].amplitude.real += ampl* 0.01* rand_part;
+		signal[i].amplitude.real += ampl*  rand_part;
 		rand_part = 0;
 	}
 }

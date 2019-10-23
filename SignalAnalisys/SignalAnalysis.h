@@ -15,7 +15,7 @@ class SigGen
 public:
 	struct dot
 	{
-		complex amplitude; double x_pos;
+		complex amplitude; double x_pos = 0.0;
 	};
 private:
 	std::vector <dot> signal;

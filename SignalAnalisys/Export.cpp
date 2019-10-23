@@ -23,7 +23,7 @@ extern "C"
 	DllExport int __stdcall GetSize();
 	DllExport void __stdcall Clear();
 	DllExport void __stdcall AddNoise(int percent);
-	DllExport void __stdcall Fur();
+	DllExport void __stdcall Fur(int k, int l);
 }
 
 
@@ -80,7 +80,7 @@ DllExport void __stdcall AddNoise(int percent)
 	s.SignalwithWhiteNoise(percent);
 }
 
-DllExport void __stdcall Fur()
+DllExport void __stdcall Fur(int k, int l)
 {
-	s.fourea();
+	s.fourea(k, l);
 }
