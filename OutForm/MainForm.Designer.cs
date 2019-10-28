@@ -39,6 +39,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.NoisePerc = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.NoiceText = new System.Windows.Forms.TextBox();
+            this.Fur1 = new System.Windows.Forms.TextBox();
+            this.Fur2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.SignGraph)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,19 +118,44 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(271, 336);
+            this.button3.Location = new System.Drawing.Point(365, 339);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(100, 23);
             this.button3.TabIndex = 7;
             this.button3.Text = "Фурье";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // NoiceText
+            // 
+            this.NoiceText.Location = new System.Drawing.Point(365, 375);
+            this.NoiceText.Name = "NoiceText";
+            this.NoiceText.Size = new System.Drawing.Size(100, 20);
+            this.NoiceText.TabIndex = 8;
+            this.NoiceText.Text = "0";
+            // 
+            // Fur1
+            // 
+            this.Fur1.Location = new System.Drawing.Point(278, 341);
+            this.Fur1.Name = "Fur1";
+            this.Fur1.Size = new System.Drawing.Size(64, 20);
+            this.Fur1.TabIndex = 9;
+            // 
+            // Fur2
+            // 
+            this.Fur2.Location = new System.Drawing.Point(278, 375);
+            this.Fur2.Name = "Fur2";
+            this.Fur2.Size = new System.Drawing.Size(64, 20);
+            this.Fur2.TabIndex = 10;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 462);
+            this.Controls.Add(this.Fur2);
+            this.Controls.Add(this.Fur1);
+            this.Controls.Add(this.NoiceText);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.NoisePerc);
             this.Controls.Add(this.label2);
@@ -154,5 +182,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox NoisePerc;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox NoiceText;
+        private System.Windows.Forms.TextBox Fur1;
+        private System.Windows.Forms.TextBox Fur2;
     }
 }

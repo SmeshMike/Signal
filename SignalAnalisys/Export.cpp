@@ -24,6 +24,7 @@ extern "C"
 	DllExport void __stdcall Clear();
 	DllExport void __stdcall AddNoise(int percent);
 	DllExport void __stdcall Fur(int k, int l);
+	DllExport int __stdcall GetC();
 }
 
 
@@ -83,4 +84,9 @@ DllExport void __stdcall AddNoise(int percent)
 DllExport void __stdcall Fur(int k, int l)
 {
 	s.fourea(k, l);
+}
+
+DllExport int __stdcall GetC()
+{
+	return s.GetCoef();
 }

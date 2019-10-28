@@ -132,9 +132,6 @@
     <ClCompile Include="Export.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\outform\program.cs" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

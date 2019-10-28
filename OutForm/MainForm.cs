@@ -15,9 +15,10 @@ namespace OutForm
 {
     public partial class MainForm : Form
     {
-        [DllImport("./SignalAnalisys.dll")]
-        /*public static extern void PushSignal(double a, double p, double f, int fs, int l);
-        [DllImport("./SignalAnalisys.dll")]*/
+        /*[DllImport("./SignalAnalisys.dll")]
+        public static extern void PushSignal(double a, double p, double f, int fs, int l);*/
+        
+        [DllImport("./SignalAnalisys.dll")]             
         public static extern int Run(double ampl, double phase, double freeq, int first, int last);
         [DllImport("./SignalAnalisys.dll")]
         public static extern int GetSize();
@@ -33,6 +34,9 @@ namespace OutForm
         public static extern void Clear();
         [DllImport("./SignalAnalisys.dll")]
         public static extern void Fur(int k, int s);
+        [DllImport("./SignalAnalisys.dll")]
+        public static extern int GetC();
+        
 
         public MainForm()
         {
@@ -57,6 +61,7 @@ namespace OutForm
               PushSignal(1, 2, 3, 4, 5);
               PushSignal(1, 2, 3, 4, 5);*/
 
+            
 
             //Проверяем, что размер всех массивов поднят до 3
             Console.WriteLine(GetSize());
@@ -148,6 +153,8 @@ namespace OutForm
                 Run(temp_ampl, temp_phase, temp_freq, temp_first, temp_last);
             }
 
+           
+
             SignGraph.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             double x = 0;
             l = GetS();
@@ -184,7 +191,7 @@ namespace OutForm
                 AddNoise(Convert.ToInt32(NoisePerc.Text));
             }
 
-
+            NoiceText.Text = Convert.ToString(GetC());
 
             double x1 = 0;
             l = GetS();
@@ -259,7 +266,7 @@ namespace OutForm
 
                 Run(temp_ampl, temp_phase, temp_freq, temp_first, temp_last);
                 AddNoise(Convert.ToInt32(NoisePerc.Text));
-                Fur(20, 80);
+                Fur(Convert.ToInt32(Fur1.Text), Convert.ToInt32(Fur2.Text));
 
             }
 

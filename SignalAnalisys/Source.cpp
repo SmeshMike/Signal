@@ -2,60 +2,60 @@
 #include "SignalAnalysis.h"
 double fRand(double fMin, double fMax);
 
-void SigGen::fourea(int n,int is)
+void SigGen::fourea( int n, int is)
 {
-	int i,j,istep;
-	int m,mmax;
-	float r,r1,theta,w_r,w_i,temp_r,temp_i;
-	float pi=3.1415926f;
+	int i, j, istep;
+	int m, mmax;
+	double r, r1, theta, w_r, w_i, temp_r, temp_i;
+	double pi = 3.1415926f;
 
-	r=pi*is;
-	j=0;
-	for(i=0;i<n;i++)
+	r = pi * is;
+	j = 0;
+	for (i = 0; i < n; i++)
 	{
-	if(i<j)
+		if (i < j)
 		{
-		temp_r=signal[j].amplitude.real;
-		temp_i= signal[j].amplitude.imagine;
-		signal[j].amplitude.real= signal[i].amplitude.real;
-		signal[j].amplitude.imagine= signal[i].amplitude.imagine;
-		signal[i].amplitude.real=temp_r;
-		signal[i].amplitude.imagine=temp_i;
+			temp_r = signal[j].amplitude.real;
+			temp_i = signal[j].amplitude.imagine;
+			signal[j].amplitude.real = signal[i].amplitude.real;
+			signal[j].amplitude.imagine = signal[i].amplitude.imagine;
+			signal[i].amplitude.real = temp_r;
+			signal[i].amplitude.imagine = temp_i;
 		}
-		m=n>>1;
-		while(j>=m) { j-=m; m=(m+1)/2; }
-		j+=m;
+		m = n >> 1;
+		while (j >= m) { j -= m; m = (m + 1) / 2; }
+		j += m;
 	}
-		mmax=1;
-		while(mmax<n)
+	mmax = 1;
+	while (mmax < n)
+	{
+		istep = mmax << 1;
+		r1 = r / (double)mmax;
+		for (m = 0; m < mmax; m++)
 		{
-		istep=mmax<<1;
-		r1=r/(float)mmax;
-		for(m=0;m<mmax;m++)
+			theta = r1 * m;
+			w_r = (double)cos((double)theta);
+			w_i = (double)sin((double)theta);
+			for (i = m; i < n; i += istep)
 			{
-			theta=r1*m;
-			w_r=(float)cos((double)theta);
-			w_i=(float)sin((double)theta);
-			for(i=m;i<n;i+=istep)
-				{
-				j=i+mmax;
-				temp_r=w_r* signal[j].amplitude.real - w_i* signal[j].amplitude.imagine;
-				temp_i=w_r* signal[j].amplitude.imagine + w_i* signal[j].amplitude.real;
-				signal[j].amplitude.real= signal[i].amplitude.real - temp_r;
-				  signal[j].amplitude.imagine= signal[i].amplitude.imagine - temp_i;
-				  signal[i].amplitude.real+=temp_r;
-				  signal[i].amplitude.imagine+=temp_i;
-				}
-			}
-		mmax=istep;
-		}
-		if (is > 0) {
-			for (i = 0; i < n; i++)
-			{
-				signal[i].amplitude.real /= (float)n;
-				signal[i].amplitude.imagine /= (float)n;
+				j = i + mmax;
+				temp_r = w_r * signal[j].amplitude.real - w_i * signal[j].amplitude.imagine;
+				temp_i = w_r * signal[j].amplitude.imagine + w_i * signal[j].amplitude.real;
+				signal[j].amplitude.real = signal[i].amplitude.real - temp_r;
+				signal[j].amplitude.imagine = signal[i].amplitude.imagine - temp_i;
+				signal[i].amplitude.real += temp_r;
+				signal[i].amplitude.imagine += temp_i;
 			}
 		}
+		mmax = istep;
+	}
+	if (is > 0)
+		for (i = 0; i < n; i++)
+		{
+			signal[i].amplitude.real /= (double)n;
+			signal[i].amplitude.imagine /= (double)n;
+		}
+
 }
 
 
@@ -106,6 +106,8 @@ void SigGen::SignalGen(int sin_count, double _ampl[], double _phase[], double _s
 
 void SigGen::SignalwithWhiteNoise( int ampl)
 {
+	double* noise = new double[size];
+	
 	double rand_part = 0;
 	for (int i = 0; i < size; i++)
 	{
@@ -116,10 +118,16 @@ void SigGen::SignalwithWhiteNoise( int ampl)
 		rand_part = rand_part / 100;
 
 		noise_energy += rand_part * rand_part;
+		noise[i] = rand_part;
 
-		signal[i].amplitude.real += ampl*  rand_part;
 		rand_part = 0;
 	}
+
+	for (int i = 0; i < size; i++)
+	{
+		signal[i].amplitude.real += ampl*noise[i];
+	}
+
 }
 
 
@@ -176,4 +184,9 @@ void SigGen::Clear()
 {
 		signal.clear();
 		size = 0;
+}
+
+int SigGen::GetCoef()
+{
+	return sign_energy / noise_energy;
 }

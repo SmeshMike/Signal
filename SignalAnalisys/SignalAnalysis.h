@@ -42,4 +42,5 @@ public:
 	int GetXPoints(int key);
 	int GetS();
 	void Clear();
+	int GetCoef();
 };
