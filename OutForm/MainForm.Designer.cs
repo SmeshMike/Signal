@@ -43,6 +43,9 @@
             this.Fur1 = new System.Windows.Forms.TextBox();
             this.AfterFur = new System.Windows.Forms.Button();
             this.FrontFur = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.SignGraph)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,15 +106,15 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1203, 551);
+            this.label2.Location = new System.Drawing.Point(1165, 509);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.Size = new System.Drawing.Size(94, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Пошумим";
+            this.label2.Text = "Процент энергии";
             // 
             // NoisePerc
             // 
-            this.NoisePerc.Location = new System.Drawing.Point(1159, 567);
+            this.NoisePerc.Location = new System.Drawing.Point(1159, 536);
             this.NoisePerc.Name = "NoisePerc";
             this.NoisePerc.Size = new System.Drawing.Size(100, 20);
             this.NoisePerc.TabIndex = 6;
@@ -119,7 +122,7 @@
             // 
             // BackFur
             // 
-            this.BackFur.Location = new System.Drawing.Point(1048, 508);
+            this.BackFur.Location = new System.Drawing.Point(1048, 533);
             this.BackFur.Name = "BackFur";
             this.BackFur.Size = new System.Drawing.Size(100, 23);
             this.BackFur.TabIndex = 7;
@@ -145,9 +148,9 @@
             // 
             // AfterFur
             // 
-            this.AfterFur.Location = new System.Drawing.Point(1178, 475);
+            this.AfterFur.Location = new System.Drawing.Point(1048, 504);
             this.AfterFur.Name = "AfterFur";
-            this.AfterFur.Size = new System.Drawing.Size(75, 56);
+            this.AfterFur.Size = new System.Drawing.Size(100, 23);
             this.AfterFur.TabIndex = 11;
             this.AfterFur.Text = "AfterFur";
             this.AfterFur.UseVisualStyleBackColor = true;
@@ -163,11 +166,38 @@
             this.FrontFur.UseVisualStyleBackColor = true;
             this.FrontFur.Click += new System.EventHandler(this.FrontFur_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1208, 452);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Невязки";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(1159, 477);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 14;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(1159, 567);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 15;
+            this.textBox2.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1265, 657);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.FrontFur);
             this.Controls.Add(this.AfterFur);
             this.Controls.Add(this.Fur1);
@@ -202,5 +232,8 @@
         private System.Windows.Forms.TextBox Fur1;
         private System.Windows.Forms.Button AfterFur;
         private System.Windows.Forms.Button FrontFur;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }

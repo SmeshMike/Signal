@@ -39,6 +39,8 @@ namespace OutForm
         }
 
 
+        int coef;
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -88,7 +90,8 @@ namespace OutForm
         }
 
         List<dot> spisok = new List<dot>();
-      
+        List<dot> temp_spisok = new List<dot>();
+
         int l = 0;
 
         private void Start_Click_1(object sender, EventArgs e)
@@ -148,10 +151,19 @@ namespace OutForm
             {
                 c_signal_y[i] = forform.GetYPoints(i);
                 c_signal_x[i] = forform.GetXPoints(i);
+
+                SigGen.dot temp = new SigGen.dot(c_signal_y[i], 0, i);
+
+                temp_spisok.Add(temp);
             }
 
-            forform.SignalwithWhiteNoise(Convert.ToUInt16(NoisePerc.Text));
+            forform.SignalwithWhiteNoise(Convert.ToInt16(textBox2.Text));
 
+            NoiseText.Text = Convert.ToString(forform.GetCoef());
+
+            //forform.SignalwithWhiteNoise(Convert.ToUInt16(NoiseText.Text));
+
+            full_energy = forform.GetEnergy();
 
             for (UInt16 i = 0; i < forform.GetS(); i++)
             {
@@ -160,7 +172,9 @@ namespace OutForm
                 spisok.Add(temp);
             }
 
-            NoiseText.Text = Convert.ToString(forform.GetCoef());
+            coef = forform.GetCoef();
+
+            //NoiseText.Text = Convert.ToString(forform.GetCoef());
            
             SignGraph.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             SignGraph.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
@@ -182,7 +196,7 @@ namespace OutForm
                 SignGraph.ChartAreas[0].AxisX.Interval = min_phase * 20;
             }
 
-            full_energy = forform.GetEnergy();
+            
 
             forform.Clear();
         }
@@ -194,12 +208,15 @@ namespace OutForm
             for (UInt16 i = 0; i < l; ++i)
             {
                 energy += Math.Sqrt(spisok[i].im_amplitude * spisok[i].im_amplitude + spisok[i].real_amplitude * spisok[i].real_amplitude);
-                if (energy > full_energy - 0.01 * full_energy && energy < full_energy + 0.01 * full_energy)
+                if (energy >= (full_energy*coef * Convert.ToInt16(NoisePerc.Text)/100))
                 {
+                    if (spisok.Count() / 2 < i)
+                        break;
+
                     while (i != l - i)
                     {
                         spisok[i + 1] = new dot(0.0, 0.0, i);
-                        spisok[l - i] = new dot(0.0, 0.0, Convert.ToUInt16(l-i));
+                        spisok[l - i -1 ] = new dot(0.0, 0.0, Convert.ToUInt16(l-i - 1));
 
                         ++i;
                     }
@@ -236,6 +253,7 @@ namespace OutForm
             SignGraph.Series[2].Points.Clear();
             forform.Clear();
             spisok.Clear();
+            temp_spisok.Clear();
         }
 
         private void BackFur_Click(object sender, EventArgs e)
@@ -256,6 +274,8 @@ namespace OutForm
                 SignGraph.Series[2].Points.AddXY(x, y);
 
             }
+
+            textBox1.Text = Convert.ToString(forform.Nevyazki(spisok, temp_spisok));
         }
 
         private void FrontFur_Click(object sender, EventArgs e)

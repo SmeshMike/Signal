@@ -58,7 +58,7 @@ namespace MySpace
                 }
             }
         }
-        public void Fourea(List<dot> sig,int n, int s)
+        public void Fourea(List<dot> sig, int n, int s)
         {
             int i, j, istep;
             int m, mmax;
@@ -73,107 +73,122 @@ namespace MySpace
                 {
 
                     temp_r = sig[j].real_amplitude;
-                        temp_i = sig[j].im_amplitude;
+                    temp_i = sig[j].im_amplitude;
 
-                        sig[j] = new dot(sig[i].real_amplitude, sig[i].im_amplitude, sig[j].x_pos);
-                        sig[i] = new dot(temp_r, temp_i, sig[i].x_pos);
-                    }
-                    m = n >> 1;
-                    while (j >= m) { j -= m; m = (m + 1) / 2; }
-                    j += m;
+                    sig[j] = new dot(sig[i].real_amplitude, sig[i].im_amplitude, sig[j].x_pos);
+                    sig[i] = new dot(temp_r, temp_i, sig[i].x_pos);
                 }
-                mmax = 1;
-                while (mmax < n)
+                m = n >> 1;
+                while (j >= m) { j -= m; m = (m + 1) / 2; }
+                j += m;
+            }
+            mmax = 1;
+            while (mmax < n)
+            {
+                istep = mmax << 1;
+                r1 = r / (double)mmax;
+                for (m = 0; m < mmax; m++)
                 {
-                    istep = mmax << 1;
-                    r1 = r / (double)mmax;
-                    for (m = 0; m < mmax; m++)
+                    theta = r1 * m;
+                    w_r = (double)Math.Cos((double)theta);
+                    w_i = (double)Math.Sin((double)theta);
+                    for (i = m; i < n; i += istep)
                     {
-                        theta = r1 * m;
-                        w_r = (double)Math.Cos((double)theta);
-                        w_i = (double)Math.Sin((double)theta);
-                        for (i = m; i < n; i += istep)
-                        {
 
-                            j = i + mmax;
-                            temp_r = w_r * sig[j].real_amplitude - w_i * sig[j].im_amplitude;
-                            temp_i = w_r * sig[j].im_amplitude + w_i * sig[j].real_amplitude;
+                        j = i + mmax;
+                        temp_r = w_r * sig[j].real_amplitude - w_i * sig[j].im_amplitude;
+                        temp_i = w_r * sig[j].im_amplitude + w_i * sig[j].real_amplitude;
 
-                            sig[j] = new dot(sig[i].real_amplitude - temp_r, sig[i].im_amplitude - temp_i, sig[j].x_pos);
+                        sig[j] = new dot(sig[i].real_amplitude - temp_r, sig[i].im_amplitude - temp_i, sig[j].x_pos);
 
-                            sig[i] = new dot(sig[i].real_amplitude + temp_r, sig[i].im_amplitude + temp_i, sig[i].x_pos);
-                        }
+                        sig[i] = new dot(sig[i].real_amplitude + temp_r, sig[i].im_amplitude + temp_i, sig[i].x_pos);
                     }
-                    mmax = istep;
                 }
-                if (s > 0)
-                    for (i = 0; i < n; i++)
-                    {
-                        sig[i] = new dot(sig[i].real_amplitude / (Convert.ToDouble(n)), sig[i].im_amplitude / (Convert.ToDouble(n)), sig[i].x_pos);
-                    }
-
+                mmax = istep;
             }
-
-            public void SignalGen(int sin_count, double[] _ampl, double[] _phase, double[] _samp_freq, UInt16[] _first, UInt16[] _last)
-            {
-                for (int i = 0; i < sin_count; i++)
+            if (s > 0)
+                for (i = 0; i < n; i++)
                 {
-                    SinGen(_ampl[i], _phase[i], _samp_freq[i], _first[i], _last[i]);
+                    sig[i] = new dot(sig[i].real_amplitude / (Convert.ToDouble(n)), sig[i].im_amplitude / (Convert.ToDouble(n)), sig[i].x_pos);
                 }
-            }
-            public void SignalwithWhiteNoise(int percent)
+
+        }
+
+        public void SignalGen(int sin_count, double[] _ampl, double[] _phase, double[] _samp_freq, UInt16[] _first, UInt16[] _last)
+        {
+            for (int i = 0; i < sin_count; i++)
             {
-                double[] noise = new double[size];
-                Random rnd = new Random();
-                double rand_part = 0;
-                for (int i = 0; i < size; i++)
+                SinGen(_ampl[i], _phase[i], _samp_freq[i], _first[i], _last[i]);
+            }
+        }
+        public void SignalwithWhiteNoise(int percent)
+        {
+            double[] noise = new double[size];
+            Random rnd = new Random();
+            double rand_part = 0;
+            double new_rand = 0.0;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < 10; j++)
                 {
-                    for (int j = 0; j < 100; j++)
-                    {
-                        rand_part += rnd.NextDouble() * 2 - 1;
-                    }
-                    rand_part = rand_part / 100;
-
-                    noise_energy += rand_part * rand_part;
-                    noise[i] = rand_part;
-
-                    rand_part = 0;
+                    rand_part += rnd.NextDouble() * 2 - 1;
                 }
+                new_rand = rand_part / 10 ;
 
-                for (UInt16 i = 0; i < size; i++)
-                {
-                    signal[i] = new dot(signal[i].real_amplitude + percent * noise[i], 0, i);
-                }
-            }
+                noise_energy += new_rand * new_rand;
+                noise[i] = new_rand * percent / 100;
 
-            public double GetYPoints(int key)
-            {
-                return signal[key].real_amplitude;
-            }
-            public int GetXPoints(int key)
-            {
-                return signal[key].x_pos;
-            }
-            public int GetS()
-            {
-                return size;
-            }
-            public void Clear()
-            {
-                signal.Clear();
-                size = 0;
-                signal_energy = 0;
-                noise_energy = 0;
-            }
-            public int GetCoef()
-            {
-                return Convert.ToInt32(Math.Sqrt(signal_energy / noise_energy));
+                rand_part = 0;
             }
 
-            public double GetEnergy()
+            for (UInt16 i = 0; i < size; i++)
             {
-                return signal_energy;
+                signal[i] = new dot(signal[i].real_amplitude + percent * noise[i], 0, i);
+            }
+        }
+
+        public double GetYPoints(int key)
+        {
+            return signal[key].real_amplitude;
+        }
+        public int GetXPoints(int key)
+        {
+            return signal[key].x_pos;
+        }
+        public int GetS()
+        {
+            return size;
+        }
+        public void Clear()
+        {
+            signal.Clear();
+            size = 0;
+            signal_energy = 0;
+            noise_energy = 0;
+        }
+        public int GetCoef()
+        {
+            return Convert.ToInt32(Math.Sqrt(signal_energy / noise_energy));
+        }
+
+        public double GetEnergy()
+        {
+            return signal_energy + noise_energy;
+        }
+
+
+        public int Nevyazki(List<dot> sig, List<dot> sign)
+        {
+            double temp= 0.0;
+
+            for (UInt16 i = 0; i < sig.Count; i++)
+            {
+                temp += (sign[i].real_amplitude - sig[i].real_amplitude)* (sign[i].real_amplitude - sig[i].real_amplitude);
             }
 
+            return Convert.ToInt32(temp);
+        }
+
+        
     }
 }
